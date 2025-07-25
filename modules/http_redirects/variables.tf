@@ -1,6 +1,6 @@
 variable "hostnames" {
   description = "A map of certificates to create, with the value being the list of hostnames"
-  type        = list(string)
+  type        = map(list(string))
 }
 
 variable "default_destination_host" {
@@ -10,6 +10,12 @@ variable "default_destination_host" {
 
 variable "default_destination_path" {
   description = "The default path to redirect to if no paths are matched."
+  type        = string
+}
+
+variable "default_redirect_response_code" {
+  default     = "MOVED_PERMANENTLY_DEFAULT"
+  description = "The default response code to use for redirects."
   type        = string
 }
 
