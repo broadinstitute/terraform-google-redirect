@@ -1,5 +1,22 @@
 locals {
+  cert_map  = { "${var.hostnames[0]}" = var.hostnames }
   safe_name = var.name != null ? var.name : replace(var.hostnames[0], ".", "-")
+}
+
+# resource "google_compute_managed_ssl_certificate" "certificate" {
+#   name     = "${local.safe_name}-managed-certificate"
+#   provider = google
+
+#   managed {
+#     domains = var.hostnames
+#   }
+# }
+
+module "path_certificates" {
+  source   = "../certificates"
+
+  certificates = local.cert_map
+  name         = local.safe_name
 }
 
 resource "google_compute_url_map" "https_url_map" {
@@ -46,18 +63,9 @@ resource "google_compute_url_map" "https_url_map" {
   }
 }
 
-resource "google_compute_managed_ssl_certificate" "certificate" {
-  name     = "${local.safe_name}-managed-certificate"
-  provider = google
-
-  managed {
-    domains = var.hostnames
-  }
-}
-
 resource "google_compute_target_https_proxy" "https_proxy" {
+  certificate_map  = module.path_certificates.certificate_map.id
   name             = "${local.safe_name}-https-proxy"
-  ssl_certificates = [google_compute_managed_ssl_certificate.certificate.self_link]
   ssl_policy       = var.ssl_policy
   url_map          = google_compute_url_map.https_url_map.self_link
 }

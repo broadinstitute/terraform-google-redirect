@@ -1,5 +1,5 @@
 variable "hostnames" {
-  description = "The list of hostname(s) the redirects will apply to."
+  description = "A map of certificates to create, with the value being the list of hostnames"
   type        = list(string)
 }
 
@@ -22,6 +22,11 @@ variable "name" {
     condition     = can(regex("^[a-z][a-z0-9-]*$", var.name)) || var.name == null
     error_message = "The name value must be a valid Google resource name, alphanumeric and dashes."
   }
+}
+
+variable "project" {
+  description = "The GCP project ID"
+  type        = string
 }
 
 variable "redirects" {
