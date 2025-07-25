@@ -1,0 +1,19 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  annotations:
+    backstage.io/source-template: template:default/open-pr-with-catalog-entry
+    github.com/project-slug: broadinstitute/terraform-google-redirect
+  description: Terraform module to create HTTP redirects using GCP components
+  name: terraform-google-redirect
+  tags:
+    - gcp
+    - module
+    - redirect
+    - terraform
+spec:
+  domain: web-hosting
+  lifecycle: production
+  owner: devnull
+  type: library

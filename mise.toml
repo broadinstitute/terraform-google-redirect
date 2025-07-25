@@ -1,0 +1,5 @@
+[tools]
+"aqua:hashicorp/terraform" = "latest"
+"cargo:adrs" = "latest"
+"npm:prettier" = "latest"
+node = "latest"

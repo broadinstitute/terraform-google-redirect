@@ -1,0 +1,9 @@
+---
+site_name: 'Terraform GCP Redirect Module'
+
+nav:
+  - Home: README.md
+  - ADRs: adr/README.md
+
+plugins:
+  - techdocs-core
