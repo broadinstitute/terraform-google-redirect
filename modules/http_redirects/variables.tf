@@ -1,6 +1,6 @@
 variable "hostnames" {
-  description = "The list of hostname(s) the redirects will apply to."
-  type        = list(string)
+  description = "A map of certificates to create, with the value being the list of hostnames"
+  type        = map(list(string))
 }
 
 variable "default_destination_host" {
@@ -13,6 +13,12 @@ variable "default_destination_path" {
   type        = string
 }
 
+variable "default_redirect_response_code" {
+  default     = "MOVED_PERMANENTLY_DEFAULT"
+  description = "The default response code to use for redirects."
+  type        = string
+}
+
 variable "name" {
   default     = null
   description = "The name to use for all resources created."
@@ -22,6 +28,11 @@ variable "name" {
     condition     = can(regex("^[a-z][a-z0-9-]*$", var.name)) || var.name == null
     error_message = "The name value must be a valid Google resource name, alphanumeric and dashes."
   }
+}
+
+variable "project" {
+  description = "The GCP project ID"
+  type        = string
 }
 
 variable "redirects" {

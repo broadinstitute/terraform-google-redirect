@@ -1,19 +1,28 @@
 locals {
+  all_hosts = flatten([for cert, hosts in var.hostnames : hosts])
   safe_name = var.name != null ? var.name : replace(var.hostnames[0], ".", "-")
 }
 
+module "certificates" {
+  source   = "../certificates"
+
+  certificates = var.hostnames
+  name         = local.safe_name
+}
+
 resource "google_compute_url_map" "https_url_map" {
-  name = "${local.safe_name}-https-url-map"
+  name    = "${local.safe_name}-https-url-map"
+  project = var.project
 
   default_url_redirect {
     host_redirect          = var.default_destination_host
     path_redirect          = var.default_destination_path
-    redirect_response_code = "TEMPORARY_REDIRECT"
+    redirect_response_code = var.default_redirect_response_code
     strip_query            = false
   }
 
   host_rule {
-    hosts        = var.hostnames
+    hosts        = local.all_hosts
     path_matcher = "allpaths"
   }
 
@@ -23,7 +32,7 @@ resource "google_compute_url_map" "https_url_map" {
     default_url_redirect {
       host_redirect          = var.default_destination_host
       path_redirect          = var.default_destination_path
-      redirect_response_code = "TEMPORARY_REDIRECT"
+      redirect_response_code = var.default_redirect_response_code
       strip_query            = false
     }
 
@@ -46,24 +55,17 @@ resource "google_compute_url_map" "https_url_map" {
   }
 }
 
-resource "google_compute_managed_ssl_certificate" "certificate" {
-  name     = "${local.safe_name}-managed-certificate"
-  provider = google
-
-  managed {
-    domains = var.hostnames
-  }
-}
-
 resource "google_compute_target_https_proxy" "https_proxy" {
-  name             = "${local.safe_name}-https-proxy"
-  ssl_certificates = [google_compute_managed_ssl_certificate.certificate.self_link]
-  ssl_policy       = var.ssl_policy
-  url_map          = google_compute_url_map.https_url_map.self_link
+  certificate_map = "//certificatemanager.googleapis.com/${module.certificates.certificate_map.id}"
+  name            = "${local.safe_name}-https-proxy"
+  project         = var.project
+  ssl_policy      = var.ssl_policy
+  url_map         = google_compute_url_map.https_url_map.self_link
 }
 
 resource "google_compute_url_map" "http_to_https_redirect" {
-  name = "${local.safe_name}-to-http-url-map"
+  name    = "${local.safe_name}-to-http-url-map"
+  project = var.project
 
   default_url_redirect {
     https_redirect         = true
@@ -74,6 +76,7 @@ resource "google_compute_url_map" "http_to_https_redirect" {
 
 resource "google_compute_target_http_proxy" "http_proxy" {
   name    = "${local.safe_name}-http-proxy"
+  project = var.project
   url_map = google_compute_url_map.http_to_https_redirect.self_link
 }
 
@@ -81,12 +84,14 @@ resource "google_compute_global_address" "public_address" {
   address_type = "EXTERNAL"
   ip_version   = "IPV4"
   name         = "${local.safe_name}-public-address"
+  project      = var.project
 }
 
 resource "google_compute_global_forwarding_rule" "global_forwarding_https_rule" {
   ip_address = google_compute_global_address.public_address.address
   name       = "${local.safe_name}-global-forwarding-https-rule"
   port_range = "443"
+  project    = var.project
   target     = google_compute_target_https_proxy.https_proxy.self_link
 }
 
@@ -94,5 +99,6 @@ resource "google_compute_global_forwarding_rule" "global_forwarding_http_rule" {
   ip_address = google_compute_global_address.public_address.address
   name       = "${local.safe_name}-global-forwarding-http-rule"
   port_range = "80"
+  project    = var.project
   target     = google_compute_target_http_proxy.http_proxy.self_link
 }
