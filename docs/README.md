@@ -26,26 +26,27 @@ module "http_redirects" {
 }
 ```
 
-* `default_destination_host`: The domain/hostname where any non-matching
-requests should go.
-* `default_destination_path`: The path under `default_destination_host`
-where any non-matching requests should go.
-* `hostnames`: A map of lists where each map is a certificate to be created,
-with the value being the list of hostnames that should be in the certificate.
-* `redirects`: A list of maps with any path-level redirects that should happen
-under the provided hostnames. This field can be left blank (i.e. `[]`) which
-will effectively redirect all the provided hostnames to the default host and
-path. The fields within the map are:
-  * `destination_host`: The host portion of the URL for the redirect
-  * `destination_path`: The path portion of the URL for the redirect`
-  * `redirect_response_code`: The HTTP code that should be used when doing a
-  redirect.
-  * `source_paths`: The list of paths under the source hostnames that should
-  trigger a redirect. __Note: If you want to redirect a path ending with a
-  slash (`/`) as well as one without a slash, you will need to make sure both
-  paths are in the list.
+- `default_destination_host`: The domain/hostname where any non-matching
+  requests should go.
+- `default_destination_path`: The path under `default_destination_host` where
+  any non-matching requests should go.
+- `hostnames`: A map of lists where each map is a certificate to be created,
+  with the value being the list of hostnames that should be in the certificate.
+- `redirects`: A list of maps with any path-level redirects that should happen
+  under the provided hostnames. This field can be left blank (i.e. `[]`) which
+  will effectively redirect all the provided hostnames to the default host and
+  path. The fields within the map are:
+  - `destination_host`: The host portion of the URL for the redirect
+  - `destination_path`: The path portion of the URL for the redirect`
+  - `redirect_response_code`: The HTTP code that should be used when doing a
+    redirect.
+  - `source_paths`: The list of paths under the source hostnames that should
+    trigger a redirect. \_\_Note: If you want to redirect a path ending with a
+    slash (`/`) as well as one without a slash, you will need to make sure both
+    paths are in the list.
 
 <!-- BEGIN_TF_DOCS -->
+
 ## Terraform docs
 
 [Terraform Docs](https://terraform-docs.io/) created by running the following
@@ -62,51 +63,59 @@ podman run --rm -u $(id -u) \
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.10 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | >= 6, < 7 |
+| Name                                                                     | Version   |
+| ------------------------------------------------------------------------ | --------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.10   |
+| <a name="requirement_google"></a> [google](#requirement_google)          | >= 6, < 8 |
+| <a name="requirement_random"></a> [random](#requirement_random)          | >= 3.4    |
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | >= 6, < 7 |
+| Name                                                      | Version   |
+| --------------------------------------------------------- | --------- |
+| <a name="provider_google"></a> [google](#provider_google) | >= 6, < 8 |
+| <a name="provider_random"></a> [random](#provider_random) | >= 3.4    |
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_certificates"></a> [certificates](#module\_certificates) | ../certificates | n/a |
+| Name                                                                    | Source          | Version |
+| ----------------------------------------------------------------------- | --------------- | ------- |
+| <a name="module_certificates"></a> [certificates](#module_certificates) | ../certificates | n/a     |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [google_compute_global_address.public_address](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_global_address) | resource |
-| [google_compute_global_forwarding_rule.global_forwarding_http_rule](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_global_forwarding_rule) | resource |
+| Name                                                                                                                                                                                | Type     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| [google_compute_global_address.public_address](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_global_address)                               | resource |
+| [google_compute_global_forwarding_rule.global_forwarding_http_rule](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_global_forwarding_rule)  | resource |
 | [google_compute_global_forwarding_rule.global_forwarding_https_rule](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_global_forwarding_rule) | resource |
-| [google_compute_target_http_proxy.http_proxy](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_target_http_proxy) | resource |
-| [google_compute_target_https_proxy.https_proxy](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_target_https_proxy) | resource |
-| [google_compute_url_map.http_to_https_redirect](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_url_map) | resource |
-| [google_compute_url_map.https_url_map](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_url_map) | resource |
+| [google_compute_target_http_proxy.http_proxy](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_target_http_proxy)                             | resource |
+| [google_compute_target_https_proxy.https_proxy](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_target_https_proxy)                          | resource |
+| [google_compute_url_map.http_to_https_redirect](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_url_map)                                     | resource |
+| [google_compute_url_map.https_url_map](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_url_map)                                              | resource |
+| [random_id.suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id)                                                                               | resource |
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_default_destination_host"></a> [default\_destination\_host](#input\_default\_destination\_host) | The default host to redirect to if no paths are matched. | `string` | n/a | yes |
-| <a name="input_default_destination_path"></a> [default\_destination\_path](#input\_default\_destination\_path) | The default path to redirect to if no paths are matched. | `string` | n/a | yes |
-| <a name="input_hostnames"></a> [hostnames](#input\_hostnames) | A map of certificates to create, with the value being the list of hostnames | `map(list(string))` | n/a | yes |
-| <a name="input_project"></a> [project](#input\_project) | The GCP project ID | `string` | n/a | yes |
-| <a name="input_redirects"></a> [redirects](#input\_redirects) | The map of redirects to apply to the path under the hostname. | <pre>list(object({<br/>    destination_host       = string<br/>    destination_path       = string<br/>    redirect_response_code = string<br/>    source_paths           = list(string)<br/>  }))</pre> | n/a | yes |
-| <a name="input_default_redirect_response_code"></a> [default\_redirect\_response\_code](#input\_default\_redirect\_response\_code) | The default response code to use for redirects. | `string` | `"MOVED_PERMANENTLY_DEFAULT"` | no |
-| <a name="input_name"></a> [name](#input\_name) | The name to use for all resources created. | `string` | `null` | no |
-| <a name="input_ssl_policy"></a> [ssl\_policy](#input\_ssl\_policy) | The SSL policy to use for the redirects. | `string` | `null` | no |
+| Name                                                                                                                        | Description                                                                  | Type                                                                                                                                                                                                         | Default                       | Required |
+| --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------- | :------: |
+| <a name="input_certificates"></a> [certificates](#input_certificates)                                                       | A map of certificates to create                                              | `map(list(string))`                                                                                                                                                                                          | n/a                           |   yes    |
+| <a name="input_default_destination_host"></a> [default_destination_host](#input_default_destination_host)                   | The default host to redirect to if no paths are matched                      | `string`                                                                                                                                                                                                     | n/a                           |   yes    |
+| <a name="input_default_destination_path"></a> [default_destination_path](#input_default_destination_path)                   | The default path to redirect to if no paths are matched                      | `string`                                                                                                                                                                                                     | n/a                           |   yes    |
+| <a name="input_name"></a> [name](#input_name)                                                                               | The name to use for all resources created                                    | `string`                                                                                                                                                                                                     | n/a                           |   yes    |
+| <a name="input_project"></a> [project](#input_project)                                                                      | The GCP project ID                                                           | `string`                                                                                                                                                                                                     | n/a                           |   yes    |
+| <a name="input_redirects"></a> [redirects](#input_redirects)                                                                | The map of redirects to apply to the path under the hostname                 | <pre>list(object({<br/> destination_host = string<br/> destination_path = string<br/> redirect_response_code = optional(string, "MOVED_PERMANENTLY_DEFAULT")<br/> source_paths = list(string)<br/> }))</pre> | n/a                           |   yes    |
+| <a name="input_default_redirect_response_code"></a> [default_redirect_response_code](#input_default_redirect_response_code) | The default response code to use for redirects                               | `string`                                                                                                                                                                                                     | `"MOVED_PERMANENTLY_DEFAULT"` |    no    |
+| <a name="input_dns_authorizations"></a> [dns_authorizations](#input_dns_authorizations)                                     | A map of DNS authorizations to use, with the key being the domain authorized | `map(any)`                                                                                                                                                                                                   | `{}`                          |    no    |
+| <a name="input_http_port_range"></a> [http_port_range](#input_http_port_range)                                              | A range of HTTP ports on which to listen                                     | `string`                                                                                                                                                                                                     | `"80"`                        |    no    |
+| <a name="input_https_port_range"></a> [https_port_range](#input_https_port_range)                                           | A range of HTTPS ports on which to listen                                    | `string`                                                                                                                                                                                                     | `"443"`                       |    no    |
+| <a name="input_ssl_policy"></a> [ssl_policy](#input_ssl_policy)                                                             | The SSL policy to use for the redirects                                      | `string`                                                                                                                                                                                                     | `null`                        |    no    |
+| <a name="input_use_dns_authorizations"></a> [use_dns_authorizations](#input_use_dns_authorizations)                         | Whether to use DNS authorizations for hostname verification                  | `bool`                                                                                                                                                                                                       | `true`                        |    no    |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_load_balancer_ip_address"></a> [load\_balancer\_ip\_address](#output\_load\_balancer\_ip\_address) | IP address of the HTTP Cloud Load Balancer |
+| Name                                                                                                        | Description                                |
+| ----------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| <a name="output_load_balancer_ip_address"></a> [load_balancer_ip_address](#output_load_balancer_ip_address) | IP address of the HTTP Cloud Load Balancer |
+
 <!-- END_TF_DOCS -->
