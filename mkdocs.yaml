@@ -1,5 +1,5 @@
 ---
-site_name: 'Terraform GCP Redirect Module'
+site_name: Terraform GCP Redirect Module
 
 nav:
   - Home: README.md

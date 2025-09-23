@@ -16,11 +16,12 @@ module "certificates" {
 }
 ```
 
-* `name`: The name used as a suffix for all certificate resources created in
-GCP.
-* `certificates`:
+- `name`: The name used as a suffix for all certificate resources created in
+  GCP.
+- `certificates`:
 
 <!-- BEGIN_TF_DOCS -->
+
 ## Terraform docs
 
 [Terraform Docs](https://terraform-docs.io/) created by running the following
@@ -37,16 +38,16 @@ podman run --rm -u $(id -u) \
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.10 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | >= 6, < 7 |
+| Name                                                                     | Version   |
+| ------------------------------------------------------------------------ | --------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.10   |
+| <a name="requirement_google"></a> [google](#requirement_google)          | >= 6, < 8 |
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | >= 6, < 7 |
+| Name                                                      | Version   |
+| --------------------------------------------------------- | --------- |
+| <a name="provider_google"></a> [google](#provider_google) | >= 6, < 8 |
 
 ## Modules
 
@@ -54,22 +55,27 @@ No modules.
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [google_certificate_manager_certificate.default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/certificate_manager_certificate) | resource |
-| [google_certificate_manager_certificate_map.default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/certificate_manager_certificate_map) | resource |
-| [google_certificate_manager_certificate_map_entry.default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/certificate_manager_certificate_map_entry) | resource |
+| Name                                                                                                                                                                                      | Type     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| [google_certificate_manager_certificate.certificates](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/certificate_manager_certificate)                     | resource |
+| [google_certificate_manager_certificate_map.certificates](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/certificate_manager_certificate_map)             | resource |
+| [google_certificate_manager_certificate_map_entry.certificates](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/certificate_manager_certificate_map_entry) | resource |
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_certificates"></a> [certificates](#input\_certificates) | The list of certificates to create, with each element being a list of hostnames. | `map(list(string))` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | The name to use for all resources created. | `string` | `null` | no |
+| Name                                                                                                | Description                                                                  | Type                | Default | Required |
+| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------- | ------- | :------: |
+| <a name="input_certificates"></a> [certificates](#input_certificates)                               | A map of certificates to create                                              | `map(list(string))` | n/a     |   yes    |
+| <a name="input_project"></a> [project](#input_project)                                              | The GCP project ID                                                           | `string`            | n/a     |   yes    |
+| <a name="input_suffix"></a> [suffix](#input_suffix)                                                 | A suffix to append to all resource names                                     | `string`            | n/a     |   yes    |
+| <a name="input_dns_authorizations"></a> [dns_authorizations](#input_dns_authorizations)             | A map of DNS authorizations to use, with the key being the domain authorized | `map(any)`          | `{}`    |    no    |
+| <a name="input_name"></a> [name](#input_name)                                                       | The name to use for all resources created.                                   | `string`            | `null`  |    no    |
+| <a name="input_use_dns_authorizations"></a> [use_dns_authorizations](#input_use_dns_authorizations) | Whether to use DNS authorizations for hostname verification                  | `bool`              | `true`  |    no    |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_certificate_map"></a> [certificate\_map](#output\_certificate\_map) | Certificate map created by this module |
+| Name                                                                             | Description                            |
+| -------------------------------------------------------------------------------- | -------------------------------------- |
+| <a name="output_certificate_map"></a> [certificate_map](#output_certificate_map) | Certificate map created by this module |
+
 <!-- END_TF_DOCS -->

@@ -12,7 +12,7 @@ jobs:
   linting:
     uses: broadinstitute/shared-workflows/.github/workflows/terraform-lint.yaml@v5.0.1
     with:
-      tflint_config_path: "../.tflint.hcl"
+      tflint_config_path: ../.tflint.hcl
       working_directory: modules
   static_analysis:
     uses: broadinstitute/shared-workflows/.github/workflows/terraform-static-analyze.yaml@v5.0.1
