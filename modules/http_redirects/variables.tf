@@ -55,7 +55,7 @@ variable "redirects" {
   description = "The map of redirects to apply to the path under the hostname"
   type = list(object({
     destination_host       = string
-    destination_path       = string
+    destination_path       = optional(string)
     redirect_response_code = optional(string, "MOVED_PERMANENTLY_DEFAULT")
     source_paths           = list(string)
   }))
