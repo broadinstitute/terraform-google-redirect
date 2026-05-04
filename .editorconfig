@@ -10,17 +10,13 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.md]
+[.{prettierrc,yamllint}]
 indent_size = 2
 indent_style = space
 
 [*.{diff,patch}]
 trim_trailing_whitespace = false
 
-[*.{json,yaml,yml}]
-indent_size = 2
-indent_style = space
-
-[*.{hcl,tf,tfvars}]
+[*.{hcl,json,md,tf,tfvars,yaml,yml}]
 indent_size = 2
 indent_style = space

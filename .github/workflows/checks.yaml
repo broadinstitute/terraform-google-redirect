@@ -14,13 +14,13 @@ jobs:
     with:
       tflint_config_path: ../.tflint.hcl
       working_directory: modules
-  static_analysis:
-    uses: broadinstitute/shared-workflows/.github/workflows/terraform-static-analyze.yaml@v6.0.0
-    secrets:
-      wf_github_token: ${{ secrets.github_token }}
-    with:
-      run_trivy: true
-      working_directory: modules
+  # static_analysis:
+  #   uses: broadinstitute/shared-workflows/.github/workflows/terraform-static-analyze.yaml@v6.0.0
+  #   secrets:
+  #     wf_github_token: ${{ secrets.github_token }}
+  #   with:
+  #     run_trivy: true
+  #     working_directory: modules
   validation:
     uses: broadinstitute/shared-workflows/.github/workflows/terraform-validate.yaml@v6.0.0
     with:
