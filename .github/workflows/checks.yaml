@@ -5,24 +5,22 @@ name: checks
   pull_request:
     branches:
       - main
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
   conventional-commits:
-    uses: broadinstitute/shared-workflows/.github/workflows/conventional-commit.yaml@v6.0.0
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: broadinstitute/shared-workflows/.github/workflows/conventional-commit.yaml@v6
   linting:
-    uses: broadinstitute/shared-workflows/.github/workflows/terraform-lint.yaml@v6.0.0
+    uses: broadinstitute/shared-workflows/.github/workflows/terraform-lint.yaml@v6
     with:
       tflint_config_path: ../.tflint.hcl
       working_directory: modules
-  # static_analysis:
-  #   uses: broadinstitute/shared-workflows/.github/workflows/terraform-static-analyze.yaml@v6.0.0
-  #   secrets:
-  #     wf_github_token: ${{ secrets.github_token }}
-  #   with:
-  #     run_trivy: true
-  #     working_directory: modules
   validation:
-    uses: broadinstitute/shared-workflows/.github/workflows/terraform-validate.yaml@v6.0.0
+    uses: broadinstitute/shared-workflows/.github/workflows/terraform-validate.yaml@v6
     with:
-      terraform_version: "1.12.2"
       working_directory: modules
