@@ -1,3 +1,9 @@
+variable "certificate_map" {
+  default     = null
+  description = "An optional certificate map to use for the HTTPS proxy. If not provided, a new certificate map will be created."
+  type        = any
+}
+
 variable "certificates" {
   description = "A map of certificates to create"
   type        = map(list(string))
