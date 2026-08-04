@@ -63,19 +63,20 @@ No modules.
 
 ## Inputs
 
-| Name                                                                                                | Description                                                                  | Type                | Default | Required |
-| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------- | ------- | :------: |
-| <a name="input_certificates"></a> [certificates](#input_certificates)                               | A map of certificates to create                                              | `map(list(string))` | n/a     |   yes    |
-| <a name="input_project"></a> [project](#input_project)                                              | The GCP project ID                                                           | `string`            | n/a     |   yes    |
-| <a name="input_suffix"></a> [suffix](#input_suffix)                                                 | A suffix to append to all resource names                                     | `string`            | n/a     |   yes    |
-| <a name="input_dns_authorizations"></a> [dns_authorizations](#input_dns_authorizations)             | A map of DNS authorizations to use, with the key being the domain authorized | `map(any)`          | `{}`    |    no    |
-| <a name="input_name"></a> [name](#input_name)                                                       | The name to use for all resources created.                                   | `string`            | `null`  |    no    |
-| <a name="input_use_dns_authorizations"></a> [use_dns_authorizations](#input_use_dns_authorizations) | Whether to use DNS authorizations for hostname verification                  | `bool`              | `true`  |    no    |
+| Name                                                                                                  | Description                                                                                                     | Type                | Default | Required |
+| ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------- | ------- | :------: |
+| <a name="input_certificates"></a> [certificates](#input_certificates)                                 | A map of certificates to create                                                                                 | `map(list(string))` | n/a     |   yes    |
+| <a name="input_project"></a> [project](#input_project)                                                | The GCP project ID                                                                                              | `string`            | n/a     |   yes    |
+| <a name="input_suffix"></a> [suffix](#input_suffix)                                                   | A suffix to append to all resource names                                                                        | `string`            | n/a     |   yes    |
+| <a name="input_certificate_map"></a> [certificate\_map](#input_certificate_map)                       | An optional certificate map to use for the HTTPS proxy. If not provided, a new certificate map will be created. | `any`               | `null`  |    no    |
+| <a name="input_dns_authorizations"></a> [dns\_authorizations](#input_dns_authorizations)              | A map of DNS authorizations to use, with the key being the domain authorized                                    | `map(any)`          | `{}`    |    no    |
+| <a name="input_name"></a> [name](#input_name)                                                         | The name to use for all resources created.                                                                      | `string`            | `null`  |    no    |
+| <a name="input_use_dns_authorizations"></a> [use\_dns\_authorizations](#input_use_dns_authorizations) | Whether to use DNS authorizations for hostname verification                                                     | `bool`              | `true`  |    no    |
 
 ## Outputs
 
-| Name                                                                             | Description                            |
-| -------------------------------------------------------------------------------- | -------------------------------------- |
-| <a name="output_certificate_map"></a> [certificate_map](#output_certificate_map) | Certificate map created by this module |
+| Name                                                                              | Description                            |
+| --------------------------------------------------------------------------------- | -------------------------------------- |
+| <a name="output_certificate_map"></a> [certificate\_map](#output_certificate_map) | Certificate map created by this module |
 
 <!-- END_TF_DOCS -->

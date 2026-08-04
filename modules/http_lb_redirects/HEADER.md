@@ -9,5 +9,5 @@ podman run --rm -u $(id -u) \
     -w /terraform-docs \
     quay.io/terraform-docs/terraform-docs:latest \
     --output-file README.md \
-    --output-mode inject /terraform-docs/modules/http_redirects
+    --output-mode inject /terraform-docs/modules/http_lb_redirects
 ```
