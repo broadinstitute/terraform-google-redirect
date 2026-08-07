@@ -1,5 +1,9 @@
+locals {
+  certmap = var.certificate_map == null ? google_certificate_manager_certificate_map.certificates[0] : var.certificate_map
+}
 
 resource "google_certificate_manager_certificate_map" "certificates" {
+  count       = var.certificate_map == null ? 1 : 0
   description = "Certificate map for ${var.name}"
   name        = "${var.name}-${var.suffix}"
   project     = var.project
@@ -15,7 +19,7 @@ resource "google_certificate_manager_certificate_map_entry" "certificates" {
 
   certificates = [google_certificate_manager_certificate.certificates[each.value[0]].id]
   description  = "Certificate map entry for ${each.value[0]}"
-  map          = google_certificate_manager_certificate_map.certificates.name
+  map          = local.certmap.name
   hostname     = each.key
   name         = format("%s-%s", replace(each.key, ".", "-"), var.suffix)
   project      = var.project

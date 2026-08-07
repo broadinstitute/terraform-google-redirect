@@ -9,6 +9,7 @@ resource "random_id" "suffix" {
 module "certificates" {
   source = "../certificates"
 
+  certificate_map        = var.certificate_map
   certificates           = var.certificates
   dns_authorizations     = var.dns_authorizations
   name                   = var.name
