@@ -18,7 +18,7 @@ resource "google_certificate_manager_certificate_map_entry" "certificates" {
   for_each = transpose(var.certificates)
 
   certificates = [google_certificate_manager_certificate.certificates[each.value[0]].id]
-  description  = "Certificate map entry for ${each.value[0]}"
+  description  = "Certificate map entry for ${each.key}"
   map          = local.certmap.name
   hostname     = each.key
   name         = format("%s-%s", replace(each.key, ".", "-"), var.suffix)
