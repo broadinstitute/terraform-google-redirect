@@ -41,13 +41,13 @@ podman run --rm -u $(id -u) \
 | Name                                                                     | Version   |
 | ------------------------------------------------------------------------ | --------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.10   |
-| <a name="requirement_google"></a> [google](#requirement_google)          | >= 6, < 8 |
+| <a name="requirement_google"></a> [google](#requirement_google)          | >= 6, < 9 |
 
 ## Providers
 
 | Name                                                      | Version   |
 | --------------------------------------------------------- | --------- |
-| <a name="provider_google"></a> [google](#provider_google) | >= 6, < 8 |
+| <a name="provider_google"></a> [google](#provider_google) | >= 6, < 9 |
 
 ## Modules
 
